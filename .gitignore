@@ -1,0 +1,5 @@
+# Machine-local settings and provider config (may name private endpoints)
+local.env
+config/headless.patch.yml
+# Dispatch runs contain snapshots of your files
+runs/

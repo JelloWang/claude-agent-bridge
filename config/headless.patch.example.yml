@@ -1,0 +1,23 @@
+# Copy to config/headless.patch.yml to route `dsh --profile headless` through your own provider.
+# Without this file, ds.sh uses DSH's built-in headless default (deepseek-official), which needs
+# DEEPSEEK_API_KEY saved in DeepSeek Harness (Settings → Models) or exported in the environment.
+#
+# Keys are referenced by env var name (apiKeyEnv). Save them in DSH's Models page; ds.sh reads
+# every *_API_KEY entry from ~/.dsh/.credentials.yaml and passes it to the headless process.
+- id: agent-default-model
+  name: "@deepseek-ai/dsh-agent-default-model"
+  config:
+    provider: !!js process.env.DS_PROVIDER || 'my-gateway'
+    model: !!js process.env.DS_MODEL || 'my-model-id'
+- id: llm-pi-ai
+  name: "@deepseek-ai/dsh-llm-pi-ai"
+  config:
+    providers:
+      my-gateway:
+        displayName: My OpenAI-compatible gateway
+        apiKeyEnv: MY_GATEWAY_API_KEY
+        api: openai-completions
+        baseURL: https://example.com/v1
+        models:
+          - id: my-model-id
+            name: my-model-id
